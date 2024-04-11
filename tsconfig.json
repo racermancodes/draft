@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+      "target": "ES2016",
+      "moduleResolution": "node", 
+      "outDir": ".",
+      "esModuleInterop": true,
+      "resolveJsonModule": true,
+      "allowSyntheticDefaultImports": true,
+      "baseUrl": ".",
+      "paths": {
+        "*": ["*", "*.ts", "*.js", "*.json"]
+      }
+    },
+    "include": [
+      "source/**/*.ts"
+    ],
+    "exclude": ["node_modules"]
+  }
