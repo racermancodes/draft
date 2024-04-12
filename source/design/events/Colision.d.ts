@@ -1,0 +1,8 @@
+interface Colision {
+    
+    
+
+}
+
+
+export { Colision }

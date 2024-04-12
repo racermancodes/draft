@@ -12,6 +12,9 @@ Static files of framework
 
 ### Desing
 
-Area for developing scripts for Object3D
+Lib for creating Objects
 
+### App
+
+Area for your application
 
