@@ -7,4 +7,4 @@ interface Animation {
     setAnimation(alias:string, animation:animateFunction):void
 }
 
-export { Animation }
+export { Animation, animateFunction }
