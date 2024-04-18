@@ -1,52 +1,88 @@
 import * as three from 'three'
-import { Animation, animateFunction } from '../events/Animation'
+import { Animation, AnimationInterface } from '../events/Animation.js'
+import { xyz } from "./xyz.js";
 
-abstract class Object3D implements Animation {
+interface dataObject {
+    position:xyz,
+    rotation:xyz,
+    scale:xyz
+}
+
+abstract class Object3D implements AnimationInterface {
     
     protected objects3d:Object3D[] = []
     protected mesh:three.Mesh
-    protected animations:{ [alias:string]:animateFunction } = {}
+    protected animations:{ [alias:string]:Animation } = {}
     protected atualAnimation:string = 'default'
+
+    protected positionInit:dataObject
 
     constructor(mesh:three.Mesh){
         this.mesh = mesh
-        this.animations['default'] = function(obj:Object3D){}
+        /*
+        this.positionInit = {
+            position:{
+                x:mesh.position.x,
+                y:mesh.position.y,
+                z:mesh.position.z
+            },
+            rotation:{
+                x:mesh.position.x,
+                y:mesh.position.y,
+                z:mesh.position.z
+            },
+            scale:{
+                x:mesh.scale.x,
+                y:mesh.scale.y,
+                z:mesh.scale.z
+            }
+        }
+        */
+        if(this.animations['default'] == undefined)
+            this.animations['default'] = new Animation(this)
     }
 
     addObject(obj:Object3D){
         this.objects3d.push(obj)
     }
 
-    setAnimation(alias: string, animation: (obj: Object3D) => void): void {
+    setAnimation(alias: string, animation: Animation): void {
         this.animations[alias] = animation
     }
 
     animate(alias?:string): void {
         let _alias = alias ? alias : this.atualAnimation
-        this.animations[_alias](this)
+        this.animations[_alias].animate()
         this.objects3d.forEach(obj => obj.animate(_alias))
     }
 
-    moveTo(move:{x?:number,y?:number,z?:number}){
+    moveTo(move:xyz){
         if(move.x) this.mesh.position.x = move.x
         if(move.y) this.mesh.position.y = move.y
         if(move.z) this.mesh.position.z = move.z
     }
 
-    rotateTo(rotate:{x?:number,y?:number,z?:number}){
+    rotateTo(rotate:xyz){
         if(rotate.x) this.mesh.rotation.x = rotate.x
         if(rotate.y) this.mesh.rotation.y = rotate.y
         if(rotate.z) this.mesh.rotation.z = rotate.z
     }
 
-    scaleTo(scale:{x?:number,y?:number,z?:number}){
+    scaleTo(scale:xyz){
         if(scale.x) this.mesh.scale.x = scale.x
         if(scale.y) this.mesh.scale.y = scale.y
         if(scale.z) this.mesh.scale.z = scale.z
     }
 
     getObjects() {
-        return this.objects3d
+        const objs:three.Mesh[] = []
+        this.objects3d.forEach(obj => {
+            const listmeshs:three.Mesh[] = obj.getObjects() 
+            listmeshs.forEach(mesh => {
+                objs.push(mesh)
+            })
+        })
+        return objs
     }
 
 }
