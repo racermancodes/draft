@@ -1,29 +1,10 @@
-import { Animation } from '../events/Animation.js';
+import Animation from '../events/Animation.js';
 class Object3D {
     constructor(mesh) {
         this.objects3d = [];
         this.animations = {};
         this.atualAnimation = 'default';
         this.mesh = mesh;
-        /*
-        this.positionInit = {
-            position:{
-                x:mesh.position.x,
-                y:mesh.position.y,
-                z:mesh.position.z
-            },
-            rotation:{
-                x:mesh.position.x,
-                y:mesh.position.y,
-                z:mesh.position.z
-            },
-            scale:{
-                x:mesh.scale.x,
-                y:mesh.scale.y,
-                z:mesh.scale.z
-            }
-        }
-        */
         if (this.animations['default'] == undefined)
             this.animations['default'] = new Animation(this);
     }
@@ -31,7 +12,7 @@ class Object3D {
         this.objects3d.push(obj);
     }
     setAnimation(alias, animation) {
-        this.animations[alias] = animation;
+        this.animations[alias] = new Animation(this, animation);
     }
     animate(alias) {
         let _alias = alias ? alias : this.atualAnimation;
@@ -62,8 +43,12 @@ class Object3D {
         if (scale.z)
             this.mesh.scale.z = scale.z;
     }
+    getMesh() {
+        return this.mesh;
+    }
     getObjects() {
         const objs = [];
+        objs.push(this.mesh);
         this.objects3d.forEach(obj => {
             const listmeshs = obj.getObjects();
             listmeshs.forEach(mesh => {

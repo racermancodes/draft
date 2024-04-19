@@ -1,4 +1,4 @@
-import * as three from 'three';
+import three from './three.js';
 class Scene {
     constructor(width, height, to = "#scene") {
         var _a;
@@ -8,8 +8,8 @@ class Scene {
         renderer.setSize(width, height);
         (_a = document.querySelector(to)) === null || _a === void 0 ? void 0 : _a.appendChild(renderer.domElement);
         this.camera = new three.PerspectiveCamera(50, width / height);
-        this.camera.position.z = 9;
-        this.camera.position.y = 3;
+        this.camera.position.z = 10;
+        this.camera.position.y = 0;
         this.renderer = renderer;
         this.scene = new three.Scene();
         this.scene.add(this.light);
@@ -48,11 +48,7 @@ class Scene {
         return this.renderer;
     }
     renderLoop() {
-        setInterval(() => {
-            for (const obj of this.objects.values())
-                obj.animate();
-            this.renderer.render(this.scene, this.camera);
-        }, 10);
+        setInterval(() => this.render(), 10);
     }
     render() {
         for (const obj of this.objects.values())

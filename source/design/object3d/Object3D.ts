@@ -1,5 +1,6 @@
-import * as three from 'three'
-import { Animation, AnimationInterface } from '../events/Animation.js'
+import three from '../three.js';
+import Animation from '../events/Animation.js'
+import { AnimationInterface, AnimationData } from '../events/Animation.d.js'
 import { xyz } from "./xyz.js";
 
 interface dataObject {
@@ -19,25 +20,7 @@ abstract class Object3D implements AnimationInterface {
 
     constructor(mesh:three.Mesh){
         this.mesh = mesh
-        /*
-        this.positionInit = {
-            position:{
-                x:mesh.position.x,
-                y:mesh.position.y,
-                z:mesh.position.z
-            },
-            rotation:{
-                x:mesh.position.x,
-                y:mesh.position.y,
-                z:mesh.position.z
-            },
-            scale:{
-                x:mesh.scale.x,
-                y:mesh.scale.y,
-                z:mesh.scale.z
-            }
-        }
-        */
+        
         if(this.animations['default'] == undefined)
             this.animations['default'] = new Animation(this)
     }
@@ -46,8 +29,8 @@ abstract class Object3D implements AnimationInterface {
         this.objects3d.push(obj)
     }
 
-    setAnimation(alias: string, animation: Animation): void {
-        this.animations[alias] = animation
+    setAnimation(alias: string, animation: AnimationData): void {
+        this.animations[alias] = new Animation(this, animation)
     }
 
     animate(alias?:string): void {
@@ -74,8 +57,13 @@ abstract class Object3D implements AnimationInterface {
         if(scale.z) this.mesh.scale.z = scale.z
     }
 
+    getMesh(){
+        return this.mesh
+    }
+
     getObjects() {
         const objs:three.Mesh[] = []
+        objs.push(this.mesh)
         this.objects3d.forEach(obj => {
             const listmeshs:three.Mesh[] = obj.getObjects() 
             listmeshs.forEach(mesh => {
