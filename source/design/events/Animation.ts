@@ -48,7 +48,7 @@ class Animation {
     private delayfinal = 0
     private delayAtual = 0
 
-    constructor(obj:Object3D, data?:AnimationData){
+    constructor(obj:Object3D, data:AnimationData){
 
         this.object3d = obj 
         this.data = data
@@ -89,6 +89,10 @@ class Animation {
             this.delayfinal = data.delay
         }
    
+    }
+
+    getData(){
+        return this.data
     }
 
     animate(){

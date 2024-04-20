@@ -17,8 +17,8 @@ class Scene {
         renderer.setSize(width,height)
         document.querySelector(to)?.appendChild(renderer.domElement)
         this.camera = new three.PerspectiveCamera(50, width/height)
-        this.camera.position.z = 10;
-        this.camera.position.y = 0;
+        this.camera.position.z = 20;
+        this.camera.position.y = 4;
         this.renderer = renderer
         this.scene = new three.Scene()
         this.scene.add(this.light)

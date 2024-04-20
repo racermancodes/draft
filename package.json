@@ -35,6 +35,5 @@
     "save": "^2.9.0",
     "three": "^0.163.0",
     "typescript": "^5.4.5"
-  },
-  "type": "module"
+  }
 }

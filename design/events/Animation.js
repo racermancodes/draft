@@ -66,6 +66,9 @@ class Animation {
             this.delayfinal = data.delay;
         }
     }
+    getData() {
+        return this.data;
+    }
     animate() {
         if (this.data == undefined)
             return;
